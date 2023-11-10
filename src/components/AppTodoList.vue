@@ -1,6 +1,11 @@
 <template>
 	<ul class="todo-list">
-		<app-todo-item v-for="todo in todos" :key="todo.id" :todo="todo"></app-todo-item>
+		<app-todo-item
+			v-for="todo in todos"
+			:key="todo.id"
+			:todo="todo"
+			@toggle-todo="toggleTodo"
+		></app-todo-item>
 	</ul>
 </template>
 
@@ -25,6 +30,16 @@ export default defineComponent({
 				{ id: 2, text: 'Ввыучить продвинутый уровень Vue', complited: false },
 			],
 		};
+	},
+	methods: {
+		toggleTodo(id: number) {
+			// console.log(id);
+			const targetTodo = this.todos.find((todo: Todo) => todo.id === id);
+
+			if (targetTodo) {
+				targetTodo.complited = !targetTodo.complited;
+			}
+		},
 	},
 });
 </script>
