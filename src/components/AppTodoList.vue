@@ -7,13 +7,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import AppTodoItem from './AppTodoItem.vue';
+import { Todo } from '@/types/Todo';
 
 interface State {
-	todos: {
-		id: number;
-		text: string;
-		complited: boolean;
-	}[];
+	todos: Todo[];
 }
 
 export default defineComponent({

@@ -11,16 +11,13 @@
 </template>
 
 <script lang="ts">
+import { Todo } from '../types/Todo';
 import { PropType, defineComponent } from 'vue';
 
 export default defineComponent({
 	props: {
 		todo: {
-			type: Object as PropType<{
-				id: number;
-				text: string;
-				complited: boolean;
-			}>,
+			type: Object as PropType<Todo>,
 			required: true,
 		},
 	},
