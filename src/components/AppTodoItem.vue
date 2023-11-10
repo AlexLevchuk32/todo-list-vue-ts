@@ -1,5 +1,9 @@
 <template>
-	<li class="todo-item" :class="{ 'todo-item--done': todo.complited }">
+	<li
+		class="todo-item"
+		:class="{ 'todo-item--done': todo.complited }"
+		@click="toggleTodo"
+	>
 		<div class="todo-item__status">
 			<i class="bi bi-check2"></i>
 		</div>
@@ -11,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { Todo } from '../types/Todo';
+import { Todo } from '@/types/Todo';
 import { PropType, defineComponent } from 'vue';
 
 export default defineComponent({
@@ -20,6 +24,18 @@ export default defineComponent({
 			type: Object as PropType<Todo>,
 			required: true,
 		},
+	},
+	methods: {
+		toggleTodo() {
+			// console.log(this.todo);
+			// this.todo.complited = !this.todo.complited;
+
+			// Передаем в родительский элемент метод toggleTodo
+			this.$emit('toggleTodo', this.todo.id);
+		},
+	},
+	emits: {
+		toggleTodo: (id: number) => Number.isInteger(id),
 	},
 });
 </script>
