@@ -5,6 +5,7 @@
 			:key="todo.id"
 			:todo="todo"
 			@toggle-todo="toggleTodo"
+			@remove-todo="removeTodo"
 		></app-todo-item>
 	</ul>
 </template>
@@ -39,6 +40,9 @@ export default defineComponent({
 			if (targetTodo) {
 				targetTodo.complited = !targetTodo.complited;
 			}
+		},
+		removeTodo(id: number) {
+			this.todos = this.todos.filter((todo: Todo) => todo.id !== id);
 		},
 	},
 });
