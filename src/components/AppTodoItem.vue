@@ -1,7 +1,7 @@
 <template>
 	<li
 		class="todo-item"
-		:class="{ 'todo-item--done': todo.complited }"
+		:class="{ 'todo-item--done': todo.completed }"
 		@click="toggleTodo"
 	>
 		<div class="todo-item__status">

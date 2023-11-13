@@ -1,6 +1,6 @@
 <template>
 	<section class="add-todo">
-		<form v-if="isFormVisible" class="add-todo__form">
+		<form v-if="isFormVisible" class="add-todo__form" @submit.prevent="addTodo">
 			<button class="close-button" type="button" @click="hideForm">
 				<i class="bi bi-x"></i>
 			</button>
@@ -18,6 +18,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { Todo } from '@/types/Todo';
 
 interface State {
 	isFormVisible: boolean;
@@ -38,6 +39,18 @@ export default defineComponent({
 		hideForm() {
 			this.isFormVisible = false;
 		},
+		addTodo() {
+			this.$emit('addTodo', {
+				id: Date.now(),
+				text: this.todoText,
+				completed: false,
+			});
+
+			this.todoText = '';
+		},
+	},
+	emits: {
+		addTodo: (todo: Todo) => todo,
 	},
 });
 </script>
