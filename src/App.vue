@@ -13,7 +13,7 @@
 		<app-add-todo @add-todo="addTodo"></app-add-todo>
 	</main>
 
-	<app-footer></app-footer>
+	<app-footer :stats="stats"></app-footer>
 </template>
 
 <script lang="ts">
@@ -29,6 +29,11 @@ import { Filter } from '@/types/Filter';
 interface State {
 	todos: Todo[];
 	activeFilter: Filter;
+}
+
+interface Stats {
+	active: number;
+	done: number;
 }
 
 export default defineComponent({
@@ -53,13 +58,25 @@ export default defineComponent({
 		filteredTodos(): Todo[] {
 			switch (this.activeFilter) {
 				case 'Active':
-					return this.todos.filter((todo) => !todo.completed);
+					return this.activeTodos;
 				case 'Done':
-					return this.todos.filter((todo) => todo.completed);
+					return this.doneTodos;
 				case 'All':
 				default:
 					return this.todos;
 			}
+		},
+		stats(): Stats {
+			return {
+				active: this.activeTodos.length,
+				done: this.doneTodos.length,
+			};
+		},
+		activeTodos(): Todo[] {
+			return this.todos.filter((todo) => !todo.completed);
+		},
+		doneTodos(): Todo[] {
+			return this.todos.filter((todo) => todo.completed);
 		},
 	},
 	methods: {
