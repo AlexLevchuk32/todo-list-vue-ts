@@ -1,11 +1,11 @@
 <template>
 	<app-header></app-header>
 
-	<app-filters></app-filters>
+	<app-filters :active-filter="activeFilter" @set-filter="setFilter"></app-filters>
 
 	<main class="app-main">
 		<app-todo-list
-			:todos="todos"
+			:todos="filteredTodos"
 			@toggle-todo="toggleTodo"
 			@remove-todo="removeTodo"
 		></app-todo-list>
@@ -24,9 +24,11 @@ import AppTodoList from './components/AppTodoList.vue';
 import AppAddTodo from './components/AppAddTodo.vue';
 import AppFooter from './components/AppFooter.vue';
 import { Todo } from '@/types/Todo';
+import { Filter } from '@/types/Filter';
 
 interface State {
 	todos: Todo[];
+	activeFilter: Filter;
 }
 
 export default defineComponent({
@@ -44,11 +46,25 @@ export default defineComponent({
 				{ id: 1, text: 'Выучить основы TypeScript', completed: false },
 				{ id: 2, text: 'Ввыучить продвинутый уровень Vue', completed: false },
 			],
+			activeFilter: 'All',
 		};
+	},
+	computed: {
+		filteredTodos(): Todo[] {
+			switch (this.activeFilter) {
+				case 'Active':
+					return this.todos.filter((todo) => !todo.completed);
+				case 'Done':
+					return this.todos.filter((todo) => todo.completed);
+				case 'All':
+				default:
+					return this.todos;
+			}
+		},
 	},
 	methods: {
 		addTodo(todo: Todo) {
-			console.log(todo);
+			this.todos.push(todo);
 		},
 		toggleTodo(id: number) {
 			// console.log(id);
@@ -60,6 +76,9 @@ export default defineComponent({
 		},
 		removeTodo(id: number) {
 			this.todos = this.todos.filter((todo: Todo) => todo.id !== id);
+		},
+		setFilter(filter: Filter) {
+			this.activeFilter = filter;
 		},
 	},
 });
