@@ -47,13 +47,23 @@ export default defineComponent({
 	data(): State {
 		return {
 			todos: [
-				{ id: 0, text: 'Выучить основы Vue', completed: true },
-				{ id: 1, text: 'Выучить основы TypeScript', completed: false },
-				{ id: 2, text: 'Ввыучить продвинутый уровень Vue', completed: false },
+				// { id: 0, text: 'Выучить основы Vue', completed: true },
+				// { id: 1, text: 'Выучить основы TypeScript', completed: false },
+				// { id: 2, text: 'Выучить продвинутый уровень Vue', completed: false },
 			],
 			activeFilter: 'All',
 		};
 	},
+
+	mounted() {
+		const data = localStorage.getItem('todos')!;
+		// console.log(data);
+
+		if (data) {
+			this.todos = JSON.parse(data);
+		}
+	},
+
 	computed: {
 		filteredTodos(): Todo[] {
 			switch (this.activeFilter) {
@@ -82,6 +92,8 @@ export default defineComponent({
 	methods: {
 		addTodo(todo: Todo) {
 			this.todos.push(todo);
+
+			localStorage.setItem('todos', JSON.stringify(this.todos));
 		},
 		toggleTodo(id: number) {
 			// console.log(id);
@@ -89,10 +101,14 @@ export default defineComponent({
 
 			if (targetTodo) {
 				targetTodo.completed = !targetTodo.completed;
+
+				localStorage.setItem('todos', JSON.stringify(this.todos));
 			}
 		},
 		removeTodo(id: number) {
 			this.todos = this.todos.filter((todo: Todo) => todo.id !== id);
+
+			localStorage.setItem('todos', JSON.stringify(this.todos));
 		},
 		setFilter(filter: Filter) {
 			this.activeFilter = filter;
