@@ -93,7 +93,7 @@ export default defineComponent({
 		addTodo(todo: Todo) {
 			this.todos.push(todo);
 
-			localStorage.setItem('todos', JSON.stringify(this.todos));
+			this.saveTodos();
 		},
 		toggleTodo(id: number) {
 			// console.log(id);
@@ -102,16 +102,19 @@ export default defineComponent({
 			if (targetTodo) {
 				targetTodo.completed = !targetTodo.completed;
 
-				localStorage.setItem('todos', JSON.stringify(this.todos));
+				this.saveTodos();
 			}
 		},
 		removeTodo(id: number) {
 			this.todos = this.todos.filter((todo: Todo) => todo.id !== id);
 
-			localStorage.setItem('todos', JSON.stringify(this.todos));
+			this.saveTodos();
 		},
 		setFilter(filter: Filter) {
 			this.activeFilter = filter;
+		},
+		saveTodos() {
+			localStorage.setItem('todos', JSON.stringify(this.todos));
 		},
 	},
 });
